@@ -31,7 +31,6 @@ if ( !class_exists( 'Miusage_admin_page' ) ) {
 
 /**
  * Instantiate class, creating admin page
+* global $Miusage_admin_page;
+* $Miusage_admin_page = new Miusage_admin_page();
  */
-
-global $Miusage_admin_page;
-$Miusage_admin_page = new Miusage_admin_page();
