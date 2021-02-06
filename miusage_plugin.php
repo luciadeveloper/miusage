@@ -9,8 +9,12 @@
    License: GPL2
 */
 
-
 if( ! defined( 'ABSPATH' ) ) exit;
+
+
+//require_once plugin_dir_path( __FILE__ ) . 'inc/class_admin_page.php';
+// Plugin_Name_Activator::activate();
+    
 
 if ( !class_exists( 'Miusage' ) ) {
     class Miusage {
@@ -20,15 +24,26 @@ if ( !class_exists( 'Miusage' ) ) {
          */
         private $api_endpoint = 'https://miusage.com/v1/challenge/1/';
         
-        public function __construct() {
+        public function init() { 
+           
+            include_once(  plugin_dir_path( __FILE__ ) . 'inc/class_admin_page.php');
+            
+            $Miusage_admin_page = new Miusage_admin_page();
+            
+        }
 
+        public function __construct() {
+            //ajax endpoint 
             add_action("wp_ajax_miusage_data", array($this,"miusage_data"));
             add_action("wp_ajax_nopriv_miusage_data", array($this,"miusage_data"));
-
-            add_action( 'admin_menu', array($this,'miusage_admin_page'));
-
+            
+            //shortcode
             add_shortcode('show_miusage_data', array($this,'print_miusage_data')); 
-
+            
+            //wp-cli command 
+            if ( class_exists( 'WP_CLI' ) ) {
+                WP_CLI::add_command( 'miusage_data', 'ajax_call_miusage_data' );
+            }
         }
 
 
@@ -66,30 +81,31 @@ if ( !class_exists( 'Miusage' ) ) {
             return($body);
         }
 
-        public function miusage_admin_page() {
-            add_menu_page(
-               __( 'miusage_data', 'textdomain' ),
-               __( 'miusage_data','textdomain' ),
-               'manage_options',
-               'miusage_data',
-               array($this,'print_miusage_data_admin'),
-               'dashicons-format-aside', 
-           );
-        }
-
-        public function print_miusage_data_admin(){
-           $data =  $this->print_miusage_data();
-           print_r($data);
-        }
+       
         
         //used by the shortcode and by the function that prints the data on the admin page
         public function print_miusage_data(){
+            //da formato a data que viene de la funcion principal
             $data =  $this->miusage_data();
             return($data);
         }
 
     }
  
-    global $Miusage;
-    $Miusage = new Miusage();
+   // global $Miusage;
+    //$Miusage = new Miusage();
+
+    
 }
+
+function miusage() {
+	global $Miusage;
+	
+	if( !isset($Miusage) ) {
+		$Miusage = new Miusage();
+		$Miusage->init();
+	}
+	return $Miusage;
+}
+
+miusage();
