@@ -24,6 +24,8 @@ if ( !class_exists( 'Miusage' ) ) {
 
             add_action("wp_ajax_miusage_data", array($this,"miusage_data"));
             add_action("wp_ajax_nopriv_miusage_data", array($this,"miusage_data"));
+
+            add_action( 'admin_menu', array($this,'miusage_admin_page') );
         }
 
         public function miusage_data() {
@@ -35,7 +37,7 @@ if ( !class_exists( 'Miusage' ) ) {
             }
         
             else {
-                $data = ajax_call_miusage_data();
+                $data = $this->ajax_call_miusage_data();
             }
         
             return($data);
@@ -43,7 +45,7 @@ if ( !class_exists( 'Miusage' ) ) {
         
         public function ajax_call_miusage_data(){
             
-            $request = wp_remote_get($api_endpoint);
+            $request = wp_remote_get($this->api_endpoint);
         
             if (is_wp_error($request)) {
                 $error_message = $response->get_error_message();
@@ -60,6 +62,29 @@ if ( !class_exists( 'Miusage' ) ) {
             return($body);
         }
 
+        public function miusage_admin_page() {
+            add_menu_page(
+               __( 'miusage_data', 'textdomain' ),
+               __( 'miusage_data','textdomain' ),
+               'manage_options',
+               'miusage_data',
+               array($this,'print_miusage_data_admin'),
+               'dashicons-format-aside', 
+               6
+           );
+        }
+
+        public function print_miusage_data_admin(){
+           $data =  $this->print_miusage_data();
+           print_r($data);
+        }
+        
+        public function print_miusage_data(){
+            //hay q tratar la data para mostrarla bonita
+            $data =  $this->miusage_data();
+            
+            return($data);
+        }
 
     }
  
