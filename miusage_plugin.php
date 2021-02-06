@@ -80,7 +80,7 @@ if ( !class_exists( 'Miusage' ) ) {
                 
             }
             //saving the data for the next hour
-            set_site_transient('transitien_test', $data, 3600); //3600 is 1 hour 
+            set_site_transient('transitien_test', $data, 10); //3600 is 1 hour 
         
             return($body);
         }
@@ -91,7 +91,7 @@ if ( !class_exists( 'Miusage' ) ) {
         public function print_miusage_table(){
             //da formato a data que viene de la funcion principal
             $data =  $this->miusage_data();
-           
+           //var_dump($data);
             $table = '<h2>'. $data->title .'</h2>';
             $table .= '<table>';
             $table .= '<tr>';
@@ -108,9 +108,9 @@ if ( !class_exists( 'Miusage' ) ) {
 
             foreach($datatable->rows as $row) {
                 $table .= '<tr>';
-               
+                $row->date = date("Y-m-d H:i:s", $row->date);
                 foreach($row as $value) {
-                    $table .= '<td>';
+                    $table .= '<td>';    
                     $table .= $value;
                     $table .= '</td>';
                 }

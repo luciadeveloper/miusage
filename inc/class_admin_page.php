@@ -7,7 +7,7 @@ if ( !class_exists( 'Miusage_admin_page' ) ) {
     class Miusage_admin_page {
         public function __construct() {
             add_action( 'admin_menu', array($this,'miusage_admin_page')); 
-            add_action("wp_ajax_miusage_data_print", array($this,"miusage_data_print"));
+            add_action("wp_ajax_miusage_data_print_refresh", array($this,"miusage_data_print_refresh"));
             add_action( 'admin_head', array($this,"wp_enqueue_scripts") );
         }
         public function wp_enqueue_scripts() {
@@ -23,9 +23,10 @@ if ( !class_exists( 'Miusage_admin_page' ) ) {
         }
 
         //for the ajax call to refresh data 
-        public function miusage_data_print(){
+        public function miusage_data_print_refresh(){
             global $Miusage;
             $data = $Miusage->print_miusage_table();
+            //$data .= date of last update;
             print_r($data);
         }
 
