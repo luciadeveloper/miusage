@@ -1,0 +1,8 @@
+#loaderDiv {
+    background-image: url('loading.gif');
+    width: 20px;
+    height: 20px;
+    background-size: 20px;
+    display: block;
+    background-repeat: no-repeat;
+}

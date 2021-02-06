@@ -27,8 +27,10 @@ if ( !class_exists( 'Miusage' ) ) {
         public function init() { 
            
             include_once(  plugin_dir_path( __FILE__ ) . 'inc/class_admin_page.php');
-            
+            //admin page
             $Miusage_admin_page = new Miusage_admin_page();
+
+            
             
         }
 
@@ -36,11 +38,9 @@ if ( !class_exists( 'Miusage' ) ) {
             //ajax endpoint 
             add_action("wp_ajax_miusage_data", array($this,"miusage_data"));
             add_action("wp_ajax_nopriv_miusage_data", array($this,"miusage_data"));
-            
-           
-
+        
             //shortcode
-            add_shortcode('show_miusage_data', array($this,'print_miusage_data')); 
+            add_shortcode('show_miusage_data', array($this,'print_miusage_table')); 
             
             //wp-cli command 
             if ( class_exists( 'WP_CLI' ) ) {
@@ -51,6 +51,7 @@ if ( !class_exists( 'Miusage' ) ) {
 
         public function miusage_data() {
             //check if there is data from the last time, if it didn't expire
+            //delete_site_transient('transitien_test');
             $transitien_test = get_site_transient('transitien_test');
             
             if ($transitien_test) {
@@ -75,10 +76,11 @@ if ( !class_exists( 'Miusage' ) ) {
         
             if( ! empty( $request ) ) {
                 $body = wp_remote_retrieve_body($request); // as an array
-                //$data = json_decode( $body );  	// as an objet
+                $data = json_decode( $body );  	// as an objet
+                
             }
             //saving the data for the next hour
-            set_site_transient('transitien_test', $body, 3600); //3600 is 1 hour 
+            set_site_transient('transitien_test', $data, 3600); //3600 is 1 hour 
         
             return($body);
         }
@@ -86,17 +88,41 @@ if ( !class_exists( 'Miusage' ) ) {
        
         
         //used by the shortcode and by the function that prints the data on the admin page
-        public function print_miusage_data(){
+        public function print_miusage_table(){
             //da formato a data que viene de la funcion principal
             $data =  $this->miusage_data();
-            return($data);
+           
+            $table = '<h2>'. $data->title .'</h2>';
+            $table .= '<table>';
+            $table .= '<tr>';
+           
+                $datatable = $data->data;
+                
+                foreach($datatable->headers as $header) {
+                    $table .= '<th>';
+                    $table .= $header;
+                    $table .= '</th>';
+                }
+                
+            $table .= '</tr>';
+
+            foreach($datatable->rows as $row) {
+                $table .= '<tr>';
+               
+                foreach($row as $value) {
+                    $table .= '<td>';
+                    $table .= $value;
+                    $table .= '</td>';
+                }
+                $table .= '</tr>';
+            }
+            
+            $table .= '</table>';    
+            
+            return($table);
         }
 
     }
- 
-   // global $Miusage;
-    //$Miusage = new Miusage();
-
     
 }
 
