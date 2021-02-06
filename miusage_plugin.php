@@ -25,11 +25,15 @@ if ( !class_exists( 'Miusage' ) ) {
             add_action("wp_ajax_miusage_data", array($this,"miusage_data"));
             add_action("wp_ajax_nopriv_miusage_data", array($this,"miusage_data"));
 
-            add_action( 'admin_menu', array($this,'miusage_admin_page') );
+            add_action( 'admin_menu', array($this,'miusage_admin_page'));
+
+            add_shortcode('show_miusage_data', array($this,'print_miusage_data')); 
+
         }
 
+
         public function miusage_data() {
-   
+            //check if there is data from the last time, if it didn't expire
             $transitien_test = get_site_transient('transitien_test');
             
             if ($transitien_test) {
@@ -56,7 +60,7 @@ if ( !class_exists( 'Miusage' ) ) {
                 $body = wp_remote_retrieve_body($request); // as an array
                 //$data = json_decode( $body );  	// as an objet
             }
-            
+            //saving the data for the next hour
             set_site_transient('transitien_test', $body, 3600); //3600 is 1 hour 
         
             return($body);
@@ -70,7 +74,6 @@ if ( !class_exists( 'Miusage' ) ) {
                'miusage_data',
                array($this,'print_miusage_data_admin'),
                'dashicons-format-aside', 
-               6
            );
         }
 
@@ -79,10 +82,9 @@ if ( !class_exists( 'Miusage' ) ) {
            print_r($data);
         }
         
+        //used by the shortcode and by the function that prints the data on the admin page
         public function print_miusage_data(){
-            //hay q tratar la data para mostrarla bonita
             $data =  $this->miusage_data();
-            
             return($data);
         }
 
