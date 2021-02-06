@@ -10,6 +10,7 @@ if ( !class_exists( 'Miusage_admin_page' ) ) {
             add_action("wp_ajax_miusage_data_print_refresh", array($this,"miusage_data_print_refresh"));
             add_action( 'admin_head', array($this,"wp_enqueue_scripts") );
         }
+        
         public function wp_enqueue_scripts() {
             wp_register_style( 'miusage_admin_page', plugins_url( '../src/admin_page.css', __FILE__ ), array(),  _S_VERSION );
             wp_enqueue_style( 'miusage_admin_page');

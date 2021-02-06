@@ -35,6 +35,10 @@ if ( !class_exists( 'Miusage' ) ) {
         }
 
         public function __construct() {
+            //styles and JS
+            add_action( 'admin_head', array($this,"wp_enqueue_scripts") );
+            add_action( 'wp_enqueue_scripts', array($this,"wp_enqueue_scripts") );
+
             //ajax endpoint 
             add_action("wp_ajax_miusage_data", array($this,"miusage_data"));
             add_action("wp_ajax_nopriv_miusage_data", array($this,"miusage_data"));
@@ -48,7 +52,10 @@ if ( !class_exists( 'Miusage' ) ) {
             }
         }
 
-
+        public function wp_enqueue_scripts() {
+            wp_register_style( 'table_styles', plugins_url( '/src/table_styles.css', __FILE__ ), array(),  _S_VERSION );
+            wp_enqueue_style( 'table_styles');
+        }
         public function miusage_data() {
             //check if there is data from the last time, if it didn't expire
             //delete_site_transient('transitien_test');
@@ -86,12 +93,10 @@ if ( !class_exists( 'Miusage' ) ) {
         }
 
        
-        
         //used by the shortcode and by the function that prints the data on the admin page
         public function print_miusage_table(){
-            //da formato a data que viene de la funcion principal
             $data =  $this->miusage_data();
-           //var_dump($data);
+
             $table = '<h2>'. $data->title .'</h2>';
             $table .= '<table>';
             $table .= '<tr>';
