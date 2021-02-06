@@ -37,6 +37,8 @@ if ( !class_exists( 'Miusage' ) ) {
             add_action("wp_ajax_miusage_data", array($this,"miusage_data"));
             add_action("wp_ajax_nopriv_miusage_data", array($this,"miusage_data"));
             
+           
+
             //shortcode
             add_shortcode('show_miusage_data', array($this,'print_miusage_data')); 
             
