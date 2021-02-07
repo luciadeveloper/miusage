@@ -1,3 +1,38 @@
-table {
-    border:1px solid;
+/* styles generated with : https://divtable.com/table-styler/ */
+#datatable table {
+    border: 2px solid #FFFFFF;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
 }
+
+#datatable table td, #datatable table th {
+    border: 1px solid #FFFFFF;
+    padding: 3px 4px;
+}
+
+#datatable table tbody td {
+    font-size: 13px;
+}
+
+#datatable table td:nth-child(even) {
+    background: #EBEBEB;
+}
+
+#datatable table thead {
+    background: #FFFFFF;
+    border-bottom: 4px solid #333333;
+}
+
+#datatable table thead th {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333333;
+    text-align: center;
+    border-left: 2px solid #333333;
+}
+
+#datatable table thead th:first-child {
+    border-left: none;
+}
+  

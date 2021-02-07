@@ -23,6 +23,7 @@ if ( !class_exists( 'Miusage' ) ) {
          *
          */
         private $api_endpoint = 'https://miusage.com/v1/challenge/1/';
+        private $lastaccess;
         
         public function init() { 
            
@@ -56,9 +57,10 @@ if ( !class_exists( 'Miusage' ) ) {
             wp_register_style( 'table_styles', plugins_url( '/src/table_styles.css', __FILE__ ), array(),  _S_VERSION );
             wp_enqueue_style( 'table_styles');
         }
+
         public function miusage_data() {
             //check if there is data from the last time, if it didn't expire
-            //delete_site_transient('transitien_test');
+           // delete_site_transient('transitien_test');
             $transitien_test = get_site_transient('transitien_test');
             
             if ($transitien_test) {
@@ -76,28 +78,33 @@ if ( !class_exists( 'Miusage' ) ) {
             
             $request = wp_remote_get($this->api_endpoint);
         
+           
             if (is_wp_error($request)) {
                 $error_message = $response->get_error_message();
                 echo $error_message;
             }
         
-            if( ! empty( $request ) ) {
+            if(!empty($request)) {
                 $body = wp_remote_retrieve_body($request); // as an array
-                $data = json_decode( $body );  	// as an objet
-                
+                $data = json_decode( $body );  	// as an objet  
+                $this->lastaccess = $request['headers']['date'];
+
+                //saving the data for the next hour
+                set_site_transient('transitien_test', $data, 3600); //3600 is 1 hour 
+               // var_dump($data);
+                return($data);
             }
-            //saving the data for the next hour
-            set_site_transient('transitien_test', $data, 10); //3600 is 1 hour 
-        
-            return($body);
+           
+            
         }
 
        
         //used by the shortcode and by the function that prints the data on the admin page
         public function print_miusage_table(){
             $data =  $this->miusage_data();
-
-            $table = '<h2>'. $data->title .'</h2>';
+            $table = '<section id="datatable">';
+            $table .= '<p>Last access: '. $this->lastaccess .'</p>';
+            $table .= '<h2>'. $data->title .'</h2>';
             $table .= '<table>';
             $table .= '<tr>';
            
@@ -123,7 +130,7 @@ if ( !class_exists( 'Miusage' ) ) {
             }
             
             $table .= '</table>';    
-            
+            $table .= '</section>';   
             return($table);
         }
 

@@ -10,7 +10,7 @@ if ( !class_exists( 'Miusage_admin_page' ) ) {
             add_action("wp_ajax_miusage_data_print_refresh", array($this,"miusage_data_print_refresh"));
             add_action( 'admin_head', array($this,"wp_enqueue_scripts") );
         }
-        
+
         public function wp_enqueue_scripts() {
             wp_register_style( 'miusage_admin_page', plugins_url( '../src/admin_page.css', __FILE__ ), array(),  _S_VERSION );
             wp_enqueue_style( 'miusage_admin_page');
@@ -20,7 +20,7 @@ if ( !class_exists( 'Miusage_admin_page' ) ) {
     
 
         public function miusage_admin_page() {
-            add_menu_page(__( 'miusage_data', 'textdomain' ),__( 'miusage_data','textdomain' ),'manage_options','miusage_data',array($this,'miusage_data_admin'),'dashicons-format-aside', );
+            add_menu_page(__( 'Miusage data', 'textdomain' ),__( 'Miusage data','textdomain' ),'manage_options','miusage_data',array($this,'miusage_data_admin'),'dashicons-format-aside', );
         }
 
         //for the ajax call to refresh data 
