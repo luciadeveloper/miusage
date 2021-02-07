@@ -17,12 +17,12 @@ Using the wp-cli command, the restriction of on hour is overwritten.
 == Installation ==
  
 
- 
 1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. To use the wp-cli, you need to have it installed in your environment. Instruccions here -> https://wp-cli.org/es/ 
 
 Shortcode -> [show_miusage_data]
+WP-CLI command -> wp miusage_data
 
 == Screenshots ==
  

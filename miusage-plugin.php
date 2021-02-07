@@ -45,7 +45,7 @@ if ( !class_exists( 'Miusage' ) ) {
             //shortcode
             add_shortcode( 'show_miusage_data', array($this,'print_miusage_table' ) ); 
             
-            //wp-cli command 
+            //wp-cli command - wp miusage_data - retrives the data, overwritting the 1 hour restriction
             if ( class_exists( 'WP_CLI' ) ) {
                 WP_CLI::add_command( 'miusage_data', 'ajax_call_miusage_data' );
             }
