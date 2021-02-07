@@ -13,18 +13,20 @@ if ( !class_exists( 'Miusage_admin_page' ) ) {
         }
 
         public function wp_enqueue_scripts() {
-            wp_register_style( 'miusage_admin_page', plugins_url( '../src/admin_page.css', __FILE__ ), array(),  _S_VERSION );
+            wp_register_style( 'miusage_admin_page', plugins_url( '../src/admin_page.css', __FILE__ ), array(),  _MIUSAGE_VERSION );
             wp_enqueue_style( 'miusage_admin_page' );
             
             //JS with the ajax call to refresh data 
-            wp_enqueue_script( 'admin_refresh', plugins_url( '../src/admin_refresh.js', __FILE__ ), array(), _S_VERSION, true );
+            wp_enqueue_script( 'admin_refresh', plugins_url( '../src/admin_refresh.js', __FILE__ ), array(), _MIUSAGE_VERSION, true );
+            //sending the siteurl var to the JS file
+            wp_localize_script( 'admin_refresh', 'WPDomain', array( 'siteurl' => get_option('siteurl')) );
         }
     
         //adding admin page
         public function miusage_admin_page() {
             add_menu_page(__( 
-                'Miusage data', 'textdomain' ),
-                __( 'Miusage data','textdomain' ),
+                'Miusage data', 'miusage' ),
+                __( 'Miusage data','miusage' ),
                 'manage_options',
                 'miusage_data',
                 array($this,'miusage_data_admin'),
@@ -44,9 +46,11 @@ if ( !class_exists( 'Miusage_admin_page' ) ) {
             global $miusage;
             $data = $miusage->print_miusage_table();
 
+            $html ='<h1>'.__( 'Miusage data','miusage' ).'</h1>';
+
             $button = '<button id="button-refresh">'. __('Refresh','miusage') .'</button>';  
             $loader = '<span id="loaderDiv" ></span>';
-            $html = '<div id="data-section"><div id="data">' . $data . '</div>' . $loader. $button. '</div>';
+            $html .= '<div id="data-section"><div id="data">' . $data . '</div>' . $loader. $button. '</div>';
             
             echo ( $html );
             

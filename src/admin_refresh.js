@@ -1,8 +1,9 @@
 jQuery( '#loaderDiv' ).hide();
+console.log(WPDomain.siteurl)
 jQuery( document ).on('click', '#button-refresh', function( e ){
     jQuery.ajax({
         type: 'POST',
-        url: '/wp-admin/admin-ajax.php?action=miusage_data_print_refresh',
+        url: WPDomain.siteurl+'/wp-admin/admin-ajax.php?action=miusage_data_print_refresh',
         beforeSend: function() {
             jQuery( '#loaderDiv' ).show();
             jQuery( '#button-refresh' ).hide();

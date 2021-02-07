@@ -12,10 +12,6 @@
 if( ! defined( 'ABSPATH' ) ) exit;
 
 
-//require_once plugin_dir_path( __FILE__ ) . 'inc/class_admin_page.php';
-// Plugin_Name_Activator::activate();
-    
-
 if ( !class_exists( 'Miusage' ) ) {
     class Miusage {
          /**
@@ -24,17 +20,23 @@ if ( !class_exists( 'Miusage' ) ) {
          */
         private $api_endpoint = 'https://miusage.com/v1/challenge/1/';
        
-        public function init() {     
+        public function init() {    
+            if ( !defined('_MIUSAGE_VERSION') ) {
+                define ( '_MIUSAGE_VERSION', '1.0' );
+            }
+           
             include_once( plugin_dir_path( __FILE__ ) . 'inc/class-admin-page.php');
             //admin page class instance, from the file included above
             $Miusage_admin_page = new Miusage_admin_page();
+
+            
         }
 
         public function __construct() {
         
             //styles and JS
-            add_action( 'admin_head', array($this, 'wp_enqueue_scripts') );
-            add_action( 'wp_enqueue_scripts', array($this,'wp_enqueue_scripts') );
+            add_action( 'admin_head', array( $this, 'wp_enqueue_scripts' ) );
+            add_action( 'wp_enqueue_scripts', array( $this,'wp_enqueue_scripts' ) );
             
             //ajax endpoint 
             add_action( 'wp_ajax_miusage_data', array($this,'miusage_data' ) );
@@ -50,7 +52,7 @@ if ( !class_exists( 'Miusage' ) ) {
         }
 
         public function wp_enqueue_scripts() {
-            wp_register_style( 'table_styles', plugins_url( '/src/table_styles.css', __FILE__ ), array(),  _S_VERSION );
+            wp_register_style( 'table_styles', plugins_url( '/src/table_styles.css', __FILE__ ), array(),  _MIUSAGE_VERSION );
             wp_enqueue_style( 'table_styles');
         }
 
