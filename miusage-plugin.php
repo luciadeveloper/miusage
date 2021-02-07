@@ -25,20 +25,24 @@ if ( !class_exists( 'Miusage' ) ) {
         private $api_endpoint = 'https://miusage.com/v1/challenge/1/';
        
         public function init() {     
-            include_once(  plugin_dir_path( __FILE__ ) . 'inc/class-admin-page.php');
-            //admin page instance
+            include_once( plugin_dir_path( __FILE__ ) . 'inc/class-admin-page.php');
+            //admin page class instance, from the file included above
             $Miusage_admin_page = new Miusage_admin_page();
         }
 
         public function __construct() {
+        
             //styles and JS
             add_action( 'admin_head', array($this, 'wp_enqueue_scripts') );
             add_action( 'wp_enqueue_scripts', array($this,'wp_enqueue_scripts') );
+            
             //ajax endpoint 
             add_action( 'wp_ajax_miusage_data', array($this,'miusage_data' ) );
             add_action( 'wp_ajax_nopriv_miusage_data', array($this,'miusage_data' ) );
+            
             //shortcode
             add_shortcode( 'show_miusage_data', array($this,'print_miusage_table' ) ); 
+            
             //wp-cli command 
             if ( class_exists( 'WP_CLI' ) ) {
                 WP_CLI::add_command( 'miusage_data', 'ajax_call_miusage_data' );
@@ -53,6 +57,7 @@ if ( !class_exists( 'Miusage' ) ) {
         public function miusage_data() {
             //if the transitien didn't expire, the data is available to use
             $transitien = get_site_transient( 'transitien' ); 
+            
             if ( $transitien ) {
                 //transitien not expired
                 $data = $transitien;
@@ -60,6 +65,7 @@ if ( !class_exists( 'Miusage' ) ) {
                 //transitien expired, request data to API again
                 $data = $this->ajax_call_miusage_data();
             }
+            
             return( $data );
         }
         
@@ -115,7 +121,7 @@ if ( !class_exists( 'Miusage' ) ) {
             }
             
             $html .= '</table>';   
-            $html .= '<p>Data updated: <i> '.  $data->lastaccess .'</i></p>'; 
+            $html .= '<p>'.__('Data updated:','miusage').'<i> '.  $data->lastaccess .'</i></p>'; 
             $html .= '</section>';   
             
             return( $html );
@@ -124,13 +130,14 @@ if ( !class_exists( 'Miusage' ) ) {
 }
 
 function miusage() {
-	global $Miusage;
+	global $miusage;
 	
-	if( !isset($Miusage) ) {
-		$Miusage = new Miusage();
-		$Miusage->init();
-	}
-	return $Miusage;
+	if( !isset( $miusage ) ) {
+		$miusage = new Miusage();
+		$miusage->init();
+    }
+    
+	return ( $miusage );
 }
 
 miusage();
