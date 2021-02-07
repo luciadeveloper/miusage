@@ -36,3 +36,10 @@
     border-left: none;
 }
   
+#data-section button {
+    border: none;
+    background: cadetblue;
+    color: #fff;
+    padding: 5px 30px;
+    font-weight: bold;
+}
