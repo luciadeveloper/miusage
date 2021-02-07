@@ -1,4 +1,5 @@
 === Miusage Plugin ===
+
 Contributors: luciadeveloper
 Tags: API, shortcode, wp-cli command, wP admin page
 License: GPLv2 or later
@@ -24,7 +25,13 @@ Using the wp-cli command, the restriction of on hour is overwritten.
 
 == Screenshots ==
  
+######  Admin page
+ 
+![Screenshot](https://luciadeveloper.com/wp-content/uploads/sites/8/2021/02/admin-page.png)
 
+###### Shortcode output in the front-end
+
+![Screenshot](https://luciadeveloper.com/wp-content/uploads/sites/8/2021/02/front-end.png)
  
 == Changelog ==
  
