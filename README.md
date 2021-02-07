@@ -1,25 +1,26 @@
 === Miusage Plugin ===
 
-Contributors: luciadeveloper
+Contributors: luciadeveloper (Lucia Sanchez Fraile)
+
 Tags: API, shortcode, wp-cli command, wP admin page
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
-This plugin retrives data from an API endpoint and displays it on an admin page, in the front-end with a shortcode and on the console, with a wp-cli command.
+This plugin retrieves data from an API endpoint and displays it on an admin page, in the front-end with a shortcode and on the console, with a wp-cli command.
 
 == Description ==
  
-This plugin retrives data from an API endpoint and displays it on an admin page, in the front-end with a shortcode and on the console, 
-with a wp-cli command. The data can be retreived once per hour. If the API endpoint was called less than an hour ago, the data is storaged with a transient. 
+This plugin retrieves data from an API endpoint and displays it on an admin page, in the front-end with a shortcode and on the console, 
+with a wp-cli command. The data can be retrieved once per hour. If the API endpoint was called less than an hour ago, the data is stored with a transient. 
 
-Using the wp-cli command, the restriction of on hour is overwritten. 
+Using the wp-cli command, the restriction of one hour is overwritten. 
  
 == Installation ==
  
 
 1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. To use the wp-cli, you need to have it installed in your environment. Instruccions here -> https://wp-cli.org/es/ 
+3. To use the wp-cli, you need to have it installed in your environment. Instructions here -> https://wp-cli.org/es/ 
 
 Shortcode -> [show_miusage_data]
 WP-CLI command -> wp miusage_data
