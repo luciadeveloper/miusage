@@ -23,6 +23,7 @@ Using the wp-cli command, the restriction of one hour is overwritten.
 3. To use the wp-cli, you need to have it installed in your environment. Instructions here -> https://wp-cli.org/es/ 
 
 Shortcode -> [show_miusage_data]
+
 WP-CLI command -> wp miusage_data
 
 == Screenshots ==
