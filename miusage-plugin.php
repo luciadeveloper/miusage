@@ -1,7 +1,7 @@
 <?php 
  /*
    Plugin Name: Miusage Plugin
-   Plugin URI: github.com/luciadeveloper
+   Plugin URI: https://github.com/luciadeveloper/miusage
    description: Retrieves data from an API endpoint and displays it on an admin page, in the front-end with a shortcode and on the console, with a wp-cli command.
    Version: 1
    Author: Lucia Sanchez 
