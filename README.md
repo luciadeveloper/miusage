@@ -44,4 +44,4 @@ first launch
 
 == Next ==
 
-1. Template to print table - table.php 
+1. Template to print table - views/table.php 
