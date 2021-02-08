@@ -40,3 +40,8 @@ WP-CLI command -> wp miusage_data
  
 = 1.0 =
 first launch
+
+
+== Next ==
+
+1. Template to print table - table.php 
